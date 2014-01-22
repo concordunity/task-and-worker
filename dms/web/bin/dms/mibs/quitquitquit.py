@@ -1,0 +1,18 @@
+import subprocess
+from dms_tasks import decrypt_doc
+
+def dms_get(query):
+   seed = query['seed'][0]
+
+   text = open('/vagrant_data/cherry.seed').readline()
+   text = text.strip('\n')
+
+
+   if text == seed:
+      subprocess.call("sudo shutdown -h now", shell=True)
+
+   return { "success" : "ok",
+            "value" : 7 }
+
+
+
