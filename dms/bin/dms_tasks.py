@@ -19,26 +19,21 @@ def process_dir(n, passwd, path):
 
    txt_filename = os.path.basename(path)
 
-   print "txt_filename: " + txt_filename
+   print txt_filename
    
    txt_filepath = os.path.join('/dmsdocs/datastore', txt_filename)
-	
-   print "txt_filepath:" + txt_filepath
+
+   print txt_filepath
 
    txt_filenamebase = os.path.splitext(txt_filename)[0]
 
-   print "txt_filenamebase:" + txt_filenamebase
-
    zipdir = os.path.join('/dmsdocs/datastore', txt_filenamebase)
 
-   print "zipdir: " + zipdir
+   print "zip dir is :" + zipdir
 
    zip_files = [f for f in os.listdir(zipdir) if f.endswith('.zip')]
    
-   print "zip_files: " 
-
    rs = chord(encrypt_zipfile.si(
-   #        n, passwd, zipdir, z) for z in zip_files)()
            n, passwd, zipdir, z) for z in zip_files)(upload_all_files.s(zipdir))
    #rs.get()
 
@@ -57,19 +52,20 @@ def encrypt_zipfile(n, passwd, zipdir, zipfile):
 @celery.task
 def upload_all_files(res, zipdir):
     print "**********************Uploading file to .... ", zipdir 
-    #cmd = os.environ['HOME'] + '/dms/bin/upload_all_files_in_dir.sh ' + zipdir
+    cmd = os.environ['HOME'] + '/dms/bin/upload_all_files_in_dir.sh ' + zipdir
 
-    #print "upload zip file ", cmd 
+    print "upload zip file ", cmd 
 
     # Call the shell script to encrypt one file.   
-    #DEVNULL=open(os.devnull, 'wb')                                
+    DEVNULL=open(os.devnull, 'wb')                                
     #subprocess.call(cmd, shell=True, stdout=DEVNULL, stderr=devnull)
-    #p =  subprocess.Popen(os.environ['HOME'] + '/dms/bin/upload_all_files_in_dir.sh ' + zipdir,
-    #                 shell=True, stdout=DEVNULL)
-    #p.wait()
+    p =  subprocess.Popen(os.environ['HOME'] + '/dms/bin/upload_all_files_in_dir.sh ' + zipdir,
+                     shell=True, stdout=DEVNULL)
+    p.wait()
 
+    print "**********Uploading file over .... "
 
-                                                    
+                                                   
 
 @celery.task
 def decrypt_doc(proxy_server, docid):

@@ -18,7 +18,7 @@ for f in `ls`; do
 	result1=$(swift -A https://$PROXY_SERVER1/auth/v1.0 -U test:tester -K testing upload $f *.7z 2>&1 > /dev/null)
 
 	# check if the result is empty.
-	#echo $result
+	#echo $result1
 	#if [ -z "$result" ]; then
 	        #echo "we need to check and remove selected files"
 	#        cd ..
@@ -26,13 +26,14 @@ for f in `ls`; do
 	#        rm -rf $ZIPDIR/$f
 	#	fi
 	# upload all files.
-	result2=$(swift -A https://$PROXY_SERVER2/auth/v1.0 -U test:tester -K testing upload $f *.7z 2>&1 > /dev/null)
+	#result2=$(swift -A https://$PROXY_SERVER2/auth/v1.0 -U test:tester -K testing upload $f *.7z 2>&1 > /dev/null)
 
 	# check if the result is empty.
-	#echo $result
-	if [ -z "$result1" && -z "$result2" ]; then
+	#echo $result2
+	#if [ -z "$result1" -a -z "$result2" ]; then
+	if [ -z "$result1" ]; then
 	    #echo "we need to check and remove selected files"
-	    cd ..
+	    cd $ZIPDIR
             echo "Clean up 7z files"
 	    rm -rf $ZIPDIR/$f
 	fi
@@ -47,9 +48,9 @@ done
 #mkdir -p $ARCHIVEDEST
 #mv $ZIPDIR/*.zip $ARChiveDEST/.
 
-#if [ -z "$(ls $ZIPDIR)" ]; then
-    #echo "removing directory is empty"
-#    rm -rf $ZIPDIR
-#fi
+if [ -z "$(ls $ZIPDIR)" ]; then
+    echo "removing directory is empty"
+    rm -rf $ZIPDIR
+fi
 
 unlink ${ZIPDIR}.txt
