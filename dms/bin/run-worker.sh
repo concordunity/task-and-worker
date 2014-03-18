@@ -55,7 +55,8 @@ check_status(){
 
 stop_workers () {
     pid=`cat $CELERY_PID`
-    kill -9 $pid
+    #kill -9 $pid
+    killall celery
     sleep $SLEEP_SECONDS
 }
 
