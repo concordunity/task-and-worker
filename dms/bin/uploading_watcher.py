@@ -5,9 +5,14 @@ import pyinotify
 import random
 import os
 
+from os.path import expanduser
 from dms_tasks import process_dir
 
 __author__ = ' Weidong Shao (weidongshao@gmail.com)'
+
+#fix a bug , like http://stackoverflow.com/questions/16166286/celery-as-daemon-task-keyerror-on-os-environ
+#HOME = '/home/david/'
+HOME = expanduser("~")
 
 PasswdInfo = collections.namedtuple('PasswdInfo', ['index', 'passwd'])
 
@@ -55,7 +60,8 @@ class EventHandler(pyinotify.ProcessEvent):
 
 def main():
     _KEYS=KeyInfo()
-    _KEYS.load_keys(os.environ['HOME'] + '/dms/conf/passwd.txt')
+    #_KEYS.load_keys(os.environ['HOME'] + '/dms/conf/passwd.txt')
+    _KEYS.load_keys(HOME + '/dms/conf/passwd.txt')
 
     wm = pyinotify.WatchManager()
 
