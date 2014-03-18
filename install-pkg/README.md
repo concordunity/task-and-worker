@@ -170,7 +170,7 @@ Lastly, navigate to <http://localhost:55672> to view the web interface for your 
 	
 	sudo mount taskserver:/dmsdocs/datastore /dmsdocs/datastore
 	
-	ln -s dms/bin/run-worker.sh run-worker
+	ln -s dms/bin/run-worker.sh celeryd
 	
 	./run-worker
 	
